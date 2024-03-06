@@ -35,7 +35,7 @@ def extract_metadata(request):
 
         # print(type(df.printSchema()))
         field_schemas = json.loads(df.schema.json().replace("nullable", "isOptional").replace("fields", "fieldSchemas"))
-        field_schemas['fieldSchemas'] = {f'{sanitize_string(x["name"])}' : {'type' : KAFKA_DATA_TYPES[x["type"].upper()], "isOptional" : x["isOptional"]} for x in field_schemas['fieldSchemas']}
+        field_schemas['fieldSchemas'] = {f'{x["name"]}' : {'type' : KAFKA_DATA_TYPES[x["type"].upper()], "isOptional" : x["isOptional"]} for x in field_schemas['fieldSchemas']}
         field_metadata = field_schemas['fieldSchemas'].keys()
 
 
@@ -63,22 +63,3 @@ def extract_metadata(request):
             return Response({"schema" : field_schemas,"key_schema" : key_schema},status=200)
     return Response(serializer.errors, status=500)        
 
-
-def sanitize_string(input_string):
-    '''
-        This method is being used to sanititze the field names 
-        when generating fieldSchemas for kafka connect implementation
-
-        sanitized_string contains : only letters [A-Z][a-z][0-9] and _
-        any special characters are replaced with _
-        _'s appearing more than once are replaced with only one _ 
-        leading and traling _ are removed from string.
-    '''
-
-    sanitized_string = re.sub(r'[^\w]', '_', input_string)
-    
-    sanitized_string = re.sub(r'_{2,}', '_', sanitized_string)
-    
-    sanitized_string = sanitized_string.strip('_')
-    
-    return sanitized_string
