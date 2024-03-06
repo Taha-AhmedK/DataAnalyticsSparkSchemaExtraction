@@ -1,0 +1,9 @@
+env
+env2
+**/__pycache__
+nohup.out
+app/hs_err_*
+app/spark-warehouse/
+derby.log
+metastore_db/
+django_log.txt
