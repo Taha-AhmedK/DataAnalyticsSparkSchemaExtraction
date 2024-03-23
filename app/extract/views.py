@@ -32,6 +32,7 @@ def extract_metadata_s3(request):
         folder_path :str = data.get('folder')
         spark = p.SparkSession \
                     .builder \
+                    .config("spark.jars.packages", "org.apache.hadoop:hadoop-aws:3.3.4")\
                     .config("spark.hadoop.fs.s3a.impl","org.apache.hadoop.fs.s3a.S3AFileSystem") \
                     .config("spark.hadoop.fs.s3a.access.key", access_key) \
                     .config("spark.hadoop.fs.s3a.secret.key", secret_key) \
