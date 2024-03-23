@@ -76,7 +76,7 @@ def extract_metadata_s3(request):
         
         else:
 
-            return Response({"schema" : field_schemas,"key_schema" : key_schema},status=200)
+            return Response({"schema" : field_schemas,"key_schema" : key_schema,"formatted_schema" : formatted_fields},status=200)
     return Response(serializer.errors, status=500)   
 
 @api_view(["POST"])
