@@ -39,7 +39,7 @@ def extract_metadata_s3(request):
                     .config('spark.hadoop.fs.s3a.path.style.access', True) \
                     .getOrCreate()
         
-        df = spark.read.csv(f"s3a://{bucket_name}/{folder_path}/", header=True)
+        df = spark.read.csv(f"s3a://{bucket_name}/{folder_path}/", header=True , inferSchema=True)
 
 
         # print(type(df.printSchema()))
